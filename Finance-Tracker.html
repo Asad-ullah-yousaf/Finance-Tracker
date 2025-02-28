@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <title>Finance Tracker App</title>
+    <style>
+        :root {
+            --bg-body: #E2E8F0;
+            --bg-div: #ffff;
+            --text: #000000;
+            --button: #979fa7;
+            --header: #007bff;
+            --hover-color: #000000;
+            --bg-table: #CBD5E1;
+            --cell-text: #000000;
+            
+
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #000000;
+            --hover-color: slategray;
+            --bg-div: #E2E8F0;
+            --text: #fff;
+            --button: #ffff;
+            --header: #000000;
+            --bg-table: #d4deec;
+            --cell-text: #000000;
+        }
+
+        .dm-sans-googleFont {
+            font-family: "DM Sans", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        tr {
+            text-align: left;
+            font-size: 18px;
+
+            &:hover {
+                background-color: #c4d3e0;
+            }
+        }
+
+        th {
+            padding: 10px 5px
+        }
+
+        td {
+            padding: 10px 5px;
+            color: var(--cell-text)
+        }
+
+        .animation-h {
+            background: linear-gradient(65deg, #6a7782 0%, #fff 25%, #6a7782 50%, #fff 75%, #6a7782 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 10s linear infinite;
+            will-change: background-position;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        .edit,
+        .delete {
+            font-weight: 500;
+            font-size: 16px;
+            padding: 3px;
+            cursor: pointer;
+            margin-top: 7px;
+        }
+
+        .delete {
+            color: red;
+            margin-left: 3px;
+        }
+
+        .edit {
+            color: #4f9af6;
+        }
+    </style>
+</head>
+
+<body class="dm-sans-googleFont bg-[var(--bg-body)]">
+    <header class="bg-[var(--header)] flex justify-between items-center p-4 px-6 border-b-2 border-[#E2E8F0]">
+        <h1 class="text-5xl  font-bold text-transparent animation-h cursor-pointer">
+            Finance Tracker</h1>
+        <div class="flex justify-between items-center gap-4">
+            <a href=""
+                class="font-semibold cursor-pointer text-lg  hover:text-[var(--hover-color)] text-white transition-all">Home</a>
+            <a href="About.html"
+                class="font-semibold cursor-pointer text-lg hover:text-[var(--hover-color)]  text-white transition-all">About</a>
+                <button type="button" id="theme-toggle"
+                class=" w-auto bg-white px-2 py-1 rounded-sm cursor-pointer hover:bg-slate-200 flex justify-evenly items-center text-md ">Dark
+                </button>
+        </div>
+    </header>
+    <!--main container-->
+    <main class="w-4/5 m-auto mt-6 ">
+        <div class="grid gap-3 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  ">
+            <div
+                class="bg-[var(--bg-div)] shadow-md flex flex-col justify-center items-start pl-4 py-6 px-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Total Income</span>
+                <span class="text-xl text-green-700" id="total">$</span>
+            </div>
+            <div class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Expenses</span>
+                <span class="text-xl text-red-700" id="expense">$</span>
+            </div>
+            <div class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Balance</span>
+                <span class="text-xl" id="balance">$</span>
+            </div>
+        </div>
+        <!--Total income-->
+        <div class="bg-[var(--bg-div)] rounded-lg shadow-md pb-6 px-6 mt-6">
+        <h1 class="text-3xl font-semibold py-6">Add Income</h1>
+        <div class="flex     justify-start gap-2 items-center ">
+            <input type="number" placeholder="Enter Your Total Income" id="income-input" min="0"
+                class="w-3/5 border bg-white  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+            <button type="button" id="income"
+                class=" text-white md:text-lg text-sm px-6 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add</button>
+            <button type="button" id="reset"
+                class=" text-white md:text-lg text-sm px-6 py-2 bg-red-500  cursor-pointer hover:bg-red-700 rounded-sm transition-all">Reset</button>
+        </div>
+    </div>
+
+        <!--form and inputs-->
+        <div class="mt-8 py-5 px-7 grid grid-cols-1 gap-5 bg-[var(--bg-div)] shadow-lg rounded-lg">
+            <h1 class="text-3xl font-semibold">Add Transaction</h1>
+            <form class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
+                <input type="text" placeholder="Description" id="description"
+                    class=" border bg-white  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                <input type="number" min="0" placeholder="Amount" id="amount"
+                    class="   border bg-white  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                <button type="button" id="add"
+                    class=" text-white md:text-lg text-sm px-2 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add
+                    Transaction</button>
+            </form>
+        </div>
+
+
+        <!--chart-->
+        <div class="h-full  rounded-lg bg-[var(--bg-div)] shadow-lg p-4 mt-4 w-full">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <!---TABLE-->
+        <div class="h-full  rounded-lg bg-[var(--bg-div)] shadow-lg mt-4 w-full px-3 py-4 mb-8">
+            <h1 class="text-3xl  font-semibold mb-4 p-2">Recent Transactions</h1>
+            <table class="table-auto bg-[var(--bg-table)] w-full rounded-lg p-6 overflow-x-auto">
+                <thead>
+                    <tr class="text-left bg-[var(--bg-div)]">
+                        <th class="text-xl bg-black text-white">Description</th>
+                        <th class="text-xl bg-black text-white">Amount</th>
+                        <th class="text-xl bg-black text-white">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[var(--text)]" id="tbody">
+                    <!--Table Data from the form-->
+                </tbody>
+            </table>
+
+        </div>
+    </main>
+
+    <footer
+        class="bg-[var(--header)] text-white text-lg p-4 flex justify-center items-center border-t-2 border-[#E2E8F0]">
+        <p>&copy;All rights reserved</p>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["red", "blue", "green", "yellow", "indigo"],
+            datasets: [{
+                label: '# of actions',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+  //Dark Mode
+  const theme = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('data-theme');
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        theme.innerHTML = `<img src="ICONS/light-mode-icon.svg" class="size-6"/>`;
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        theme.innerHTML = `<img src="ICONS/dark-mode-icon.svg" class="size-6"/>`;
+    }
+    theme.addEventListener('click', function () {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            theme.innerHTML = `<img src="ICONS/light-mode-icon.svg" class="size-6"/>`;
+            localStorage.setItem('data-theme', 'light');
+
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            theme.innerHTML = `<img src="ICONS/dark-mode-icon.svg" class="size-6"/>`;
+            localStorage.setItem('data-theme', 'dark');
+        }
+    });
+
+
+//Getting values from input fields and storing them in table
+const description = document.getElementById('description');
+const Amount = document.getElementById('amount');
+const add = document.getElementById('add');
+const tbody = document.getElementById('tbody');
+let DataArray = JSON.parse(localStorage.getItem('DataArray')) || [];
+let currentId = DataArray.length > 0 ? Math.max(...DataArray.map(item => item.id)) + 1 : 1;
+//income 
+const incomeBtn = document.getElementById('income');
+const reset = document.getElementById('reset');
+const income = document.getElementById('income-input');
+const expense = document.getElementById('expense');
+const balance = document.getElementById('balance');
+const total = document.getElementById('total');
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Load data from localStorage on page load
+    const savedTotalIncome = localStorage.getItem('totalIncome');
+    if (savedTotalIncome) {
+        total.textContent = "$" + savedTotalIncome;
+        income.classList.add('hidden');
+        incomeBtn.classList.add('hidden');
+    }
+
+    // Function to calculate and update expense
+    function updateExpense() {
+        const totalExpense = DataArray.reduce((sum, item) => sum + parseFloat(item.amt), 0);
+        expense.textContent = "$" + totalExpense; // Update the expense field
+        const totalIncome = parseFloat(total.textContent.replace('$', '')) || 0;
+        balance.textContent = "$" + (totalIncome - totalExpense); // Update the balance field
+    }
+
+    // Save data to localStorage
+    function saveToLocalStorage() {
+        localStorage.setItem('DataArray', JSON.stringify(DataArray));
+        localStorage.setItem('totalIncome', total.textContent.replace('$', ''));
+    }
+
+    //adding total income and making sure it follows conditions
+    incomeBtn.addEventListener('click', function () {
+        addTotal();
+    });
+    //add function
+    function addTotal() {
+        const addingIncome = income.value.trim();
+        if (income.value == 0 || income.value.startsWith(0)) {
+            alert("Please Enter a Valid Number")
+            income.value = "";
+        } else {
+            total.textContent = "$" + addingIncome;
+            expense.textContent = "$0";
+            balance.textContent = '$0';
+            income.classList.add('hidden');
+            incomeBtn.classList.add('hidden');
+            income.value = "";
+            saveToLocalStorage(); // Save total income to localStorage
+            updateExpense(); // Update expense after setting total income
+        }
+    }
+    //a reset button incase we want to add another amount in the total income while resetting the previous one
+    reset.addEventListener('click', function () {
+        resetTotal();
+    });
+    //reset function
+    function resetTotal() {
+        income.classList.remove('hidden');
+        incomeBtn.classList.remove('hidden');
+        total.textContent = "";
+        income.value = "";
+        expense.textContent = "$0";
+        balance.textContent = '$0';
+        DataArray.length = 0; 
+        tbody.innerHTML = ""; 
+        saveToLocalStorage(); 
+    }
+
+    function createRow() {
+        tbody.innerHTML = "";
+        DataArray.forEach((item) => {
+            //new table row
+            const newRow = document.createElement('tr');
+            //using template literals to create table cells 
+            newRow.innerHTML =
+                `<td>${item.Desc}</td>
+                 <td>-$${item.amt}</td>
+                 <td class="flex justify-start items-center gap-3">
+                 <button class="text-blue-400 text-sm font-medium cursor-pointer" data-id="${item.id}">
+                    Edit
+                 </button>
+                 <button class="text-red-600 text-sm font-medium cursor-pointer" data-id="${item.id}">
+                    Delete
+                 </button>
+                 </td>`;
+            tbody.appendChild(newRow);
+        });
+        saveToLocalStorage(); 
+        updateExpense();
+    }
+
+    //
+    function deleteRow(event) {
+        if (event.target.classList.contains('text-red-600')) {
+            const ID = parseInt(event.target.getAttribute('data-id'));
+            const index = DataArray.findIndex(index => index.id === ID)
+            if (index !== -1) {
+                DataArray.splice(index, 1);
+            }
+            event.target.closest('tr').remove();
+            saveToLocalStorage(); 
+            updateExpense(); 
+        }
+    }
+    //
+    //table data
+    add.addEventListener('click', function () {
+        const desc = description.value.trim();
+        const amount = Amount.value.trim();
+        if (total.textContent === "") {
+            alert("Please Enter Your Total Income first")
+        } else {
+            //checking if field is empty or not
+            if (description.value !== "" && Amount.value !== "") {
+                const newItem = {
+                    id: currentId++,
+                    Desc: desc,
+                    amt: amount
+                }
+                DataArray.push(newItem);
+                //function 
+                createRow();
+                console.log(DataArray)
+                //Delete Button for each row
+                tbody.addEventListener('click', function (event) {
+                    deleteRow(event);
+                })
+            }
+            else {
+                return alert("Please fill out all fields");
+            }
+        }
+        description.value = "";
+        Amount.value = "";
+    });
+
+    // Populate the table on page load
+    if (DataArray.length > 0) {
+        createRow();
+    }
+})
+</script>
+
+</html>
