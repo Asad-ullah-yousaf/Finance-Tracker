@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!--Tostify.js-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!---->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <title>Finance Tracker App</title>
+    <style>
+        :root {
+            --bg-body: #E2E8F0;
+            --bg-div: #ffff;
+            --text: #000000;
+            --button: #979fa7;
+            --header: #007bff;
+            --hover-color: #000000;
+            --bg-table: #CBD5E1;
+            --cell-text: #000000;
+            --bg-input: #f4f6f8;
+
+
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #000000;
+            --hover-color: slategray;
+            --bg-div: #E2E8F0;
+            --text: #fff;
+            --button: #ffff;
+            --header: #000000;
+            --bg-table: #d4deec;
+            --cell-text: #000000;
+            --bg-input: #ffff;
+        }
+
+        .dm-sans-googleFont {
+            font-family: "DM Sans", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+
+        tr {
+            text-align: left;
+            font-size: 18px;
+            margin-top: 2px;
+            outline: 1px solid black;
+        }
+
+        .Hover:hover {
+            transition: all;
+            background-color: #f4f6f8;
+        }
+
+        th {
+            padding: 10px 5px
+        }
+
+        td {
+            padding: 10px 5px;
+            color: var(--cell-text)
+        }
+
+        .animation-h {
+            background: linear-gradient(65deg, #6a7782 0%, #fff 25%, #6a7782 50%, #fff 75%, #6a7782 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 10s linear infinite;
+            will-change: background-position;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+    </style>
+</head>
+<!--Header-->
+<header
+    class="bg-[var(--header)] flex justify-between items-center p-4 px-6 border-b-2 border-[#E2E8F0] dm-sans-googleFont">
+    <h1 class="lg:text-5xl md:text-4xl text-3xl  font-bold text-transparent animation-h cursor-pointer">
+        Finance Tracker</h1>
+    <img src="ICONS/menu.svg" id="open" class="self-end cursor-pointer hover:scale-105 min-[500px]:hidden">
+    <div class="flex justify-between items-center gap-4 max-[500px]:hidden" id="menu">
+        <a href=""
+            class="font-semibold cursor-pointer text-lg  hover:text-[var(--hover-color)] text-white transition-all">Home</a>
+        <a href="About.html"
+            class="font-semibold cursor-pointer text-lg hover:text-[var(--hover-color)]  text-white transition-all">About</a>
+        <button type="button" id="theme-toggle"
+            class=" w-auto bg-white px-2 py-1 rounded-sm cursor-pointer hover:bg-slate-200 flex justify-evenly items-center md:text-md text-sm">Dark
+        </button>
+    </div>
+</header>
+
+<body class="dm-sans-googleFont bg-[var(--bg-body)]">
+    <!-- Small Screen Menu -->
+    <div class=" justify-center bg-[var(--header)] min-[500px]:hidden hidden border-b-2 border-[#E2E8F0]" id="menu-2">
+        <img src="ICONS/close.svg" class="justify-self-start self-start p-2 cursor-pointer hover:scale-105" id="close">
+        <div class="bg-[var(--header)] grid grid-cols-1 p-4 text-center w-3/5 m-auto gap-2">
+            <a href=""
+                class="font-semibold cursor-pointer text-lg hover:bg-slate-300 rounded-md text-white transition-all">Home</a>
+            <a href="About.html"
+                class="font-semibold cursor-pointer text-lg hover:bg-slate-300 rounded-md text-white transition-all">About</a>
+            <button type="button" id="theme-toggle-2"
+                class="  bg-white px-2 py-1 rounded-sm cursor-pointer hover:bg-slate-200 flex justify-evenly items-center md:text-md text-sm">
+            </button>
+        </div>
+    </div>
+
+    <!--Main Container-->
+    <main class="w-[95%]  m-auto">
+        <!--Displaying Income / expense and balance-->
+        <div class="grid md:gap-8 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 py-4 gap-4">
+            <div
+                class="bg-[var(--bg-div)] shadow-md flex flex-col justify-center items-start pl-4 py-6 px-2 rounded-lg ">
+                <span class="text-sm text-slate-500 font-semibold">Total Income</span>
+                <span class="text-xl text-green-700 " id="total">$</span>
+            </div>
+            <div
+                class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-6 px-2 rounded-lg ">
+                <span class="text-sm text-slate-500 font-semibold">Expenses</span>
+                <span class="text-xl text-red-700  " id="expense">$</span>
+            </div>
+            <div
+                class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-6 px-2 rounded-lg ">
+                <span class="text-sm text-slate-500 font-semibold">Balance</span>
+                <span class="text-xl text-blue-500 " id="balance">$</span>
+            </div>
+        </div>
+        <!--fORM-->
+        <div class="grid lg:grid-cols-3 grid-cols-1  lg:grid-rows-5 gap-6 m-auto">
+            <div class="row-span-5 bg-[var(--bg-div)] px-4 rounded-lg shadow-md ">
+                <h1 class="text-4xl font-bold pt-4 text-center">Add Transaction</h1>
+                <form class="grid  grid-cols-1 gap-2 pb-4 mt-3">
+                    <!--DESCRIPTION-->
+                    <label for="description" class="font-semibold">Description:</label>
+                    <input type="text" placeholder="Description" id="description"
+                        class=" border bg-[var(--bg-input)] py-4 px-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                    <!--AMOUNT-->
+                    <label for="amount" class="font-semibold">Amount:</label>
+                    <input type="number" min="0" placeholder="Amount" id="amount"
+                        class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+
+
+
+                    <!-------------------------TYPE? INCOME OR EXPENSE---------------------->
+                    <label for="select" class="font-semibold">Choose type of Amount:</label>
+                   
+
+                    <div class="flex justify-start  items-center mb-5 gap-3">
+
+                        <select name="type" id="select" title="choose option"
+                        class="justify-self-start border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        <option value="Choose">--choose--</option>
+                        <option value="Income">Income</option>
+                        <option value="Expense">Expense</option>
+                    </select>
+        
+                        <select  id="expenseCat" title="choose option"
+                        class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                            <option value="Food">Food</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Travelling">Travelling</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Outing">Outing</option>
+                            <option value="Other">Other</option>
+                        </select>
+        
+        
+                        <select  id="incomeCat" title="choose option"
+                        class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                            <option value="Business">business</option>
+                            <option value="Salary">Salary</option>
+                            <option value="Bonus">Bonus</option>
+                            <option value="Gift">Gift</option>
+                            <option value="Other">Other</option>
+        
+                        </select>
+                    </div>
+                    <!--Category
+                    <select id="select-category"
+                        class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        <option value="Income">--Choose a category--</option>
+                        <option value="Income">Food</option>
+                        <option value="Expense">Travelling</option>
+                    </select>
+                    -->
+                    <br>
+                    <button type="button" id="add"
+                        class="flex justify-center items-center gap-2 text-white md:text-lg text-sm px-2 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add
+                        Transaction
+                    </button>
+                </form>
+            </div>
+            <!--CHART-->
+            <div class="col-span-2 row-span-5 rounded-lg bg-[var(--bg-div)] shadow-md p-3">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <!--TABLE-->
+        <div class="h-full  rounded-lg bg-[var(--bg-div)] shadow-lg mt-4 w-full px-3 py-4 mb-8 overflow-x-auto">
+            <h1 class="text-3xl  font-semibold mb-4 p-2">Recent Transactions</h1>
+
+
+            <!--------------------- FILTER ------------------------------->
+            <div class="flex justify-end px-5 items-center mb-5 gap-3">
+                <select  id="filter-select" title="choose option"
+                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
+                </select>
+
+                <select  id="expense-category" title="choose option"
+                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                    <option value="Food">Food</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Travelling">Travelling</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Outing">Outing</option>
+                </select>
+
+
+                <select  id="income-category" title="choose option"
+                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                    <option value="Business">business</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Bonus">Bonus</option>
+                    <option value="Gift">Gift</option>
+
+                </select>
+
+                <Button type="button" class="px-5 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md cursor-pointer">Filter</Button>
+            </div>
+
+
+<!----------------------------Table--------------------------------------->
+            <table class="table-auto bg-[var(--bg-table)] w-[97%] m-auto rounded-lg p-6 overflow-x-auto">
+                <thead>
+                    <tr class="text-left ">
+                        <th class="text-xl bg-black text-white">Date</th>
+                        <th class="text-xl bg-black text-white">Description</th>
+                        <th class="text-xl bg-black text-white">Amount</th>
+                        <th class="text-xl bg-black text-white">Type</th>
+                        <th class="text-xl bg-black text-white">Options</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[var(--text)] overflow-x-auto" id="tbody">
+                    <!--Table Data from the form-->
+                </tbody>
+            </table>
+
+
+            <!--------------------------Modal---------------------------------->
+
+            <div class="fixed inset-0 bg-black/30 hidden" id="overlay"></div>
+            <!--Form Container-->
+            <div class=" fixed inset-0  items-center justify-center hidden" id="form-container">
+                <!--form-->
+                <div class="bg-white p-6 rounded-lg shadow-lg w-96 ">
+                    <h1 class=" text-2xl font-bold pt-4 text-center">Edit Transaction</h1>
+                    <form class="grid  grid-cols-1 gap-2 pb-4 mt-3 ">
+                        <!--DESCRIPTION-->
+                        <label for="description" class="font-semibold">Description:</label>
+                        <input type="text" placeholder="Description" id="descriptionInput"
+                            class=" border bg-[var(--bg-input)] py-4 px-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        <!--AMOUNT-->
+                        <label for="amount" class="font-semibold">Amount:</label>
+                        <input type="number" min="0" placeholder="Amount" id="amountInput"
+                            class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        <!--TYPE? INCOME OR EXPENSE-->
+                        <label for="select" class="font-semibold">Choose type of Amount:</label>
+                        <select name="type" id="selectInput" title="choose option"
+                            class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                        </select>
+                        <br>
+                        <button type="button" id="addBtn"
+                            class="flex justify-center items-center gap-2 text-white md:text-lg text-sm px-2 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add
+                            Transaction
+                        </button>
+                        <button type="button" id="close-Modal"
+                            class="flex justify-center items-center gap-2 text-white md:text-lg text-sm px-2 py-2 bg-red-500  cursor-pointer hover:bg-red-700 rounded-sm transition-all">
+                            Close
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer
+        class="bg-[var(--header)] text-white text-lg p-4 flex justify-center items-center border-t-2 border-[#E2E8F0]">
+        <p>&copy;All rights reserved</p>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const seLect = document.getElementById('select');
+    const expCat = document.getElementById('expenseCat');
+    const incomeCat = document.getElementById('incomeCat');
+
+    seLect.addEventListener('change', function(){
+        if(seLect.value === "Income"){
+            incomeCat.classList.remove('hidden');
+            expCat.classList.add('hidden');
+        }else if(seLect.value === "Expense"){
+            expCat.classList.remove('hidden');
+            incomeCat.classList.add('hidden');
+        }else{
+            expCat.classList.add('hidden');
+            incomeCat.classList.add('hidden');
+        }
+    })
+</script>
+<script src="JavaScript/index.js"></script>
+</html>

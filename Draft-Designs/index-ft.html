@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <title>Finance Tracker App</title>
+    <style>
+        :root {
+            --bg-body: #E2E8F0;
+            --bg-div: #ffff;
+            --text: #000000;
+            --button: #979fa7;
+            --header: #007bff;
+            --hover-color: #000000;
+            --bg-table: #CBD5E1;
+            --cell-text: #000000;
+            --bg-input: #ebedef;
+
+
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #000000;
+            --hover-color: slategray;
+            --bg-div: #E2E8F0;
+            --text: #fff;
+            --button: #ffff;
+            --header: #000000;
+            --bg-table: #d4deec;
+            --cell-text: #000000;
+            --bg-input: #ffff;
+        }
+
+        .dm-sans-googleFont {
+            font-family: "DM Sans", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        tr {
+            text-align: left;
+            font-size: 18px;
+
+            &:hover {
+                background-color: #c4d3e0;
+            }
+        }
+
+        th {
+            padding: 10px 5px
+        }
+
+        td {
+            padding: 10px 5px;
+            color: var(--cell-text)
+        }
+
+        .animation-h {
+            background: linear-gradient(65deg, #6a7782 0%, #fff 25%, #6a7782 50%, #fff 75%, #6a7782 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 10s linear infinite;
+            will-change: background-position;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+    </style>
+</head>
+
+<body class="dm-sans-googleFont bg-[var(--bg-body)]">
+    <header class="bg-[var(--header)] flex justify-between items-center p-4 px-6 border-b-2 border-[#E2E8F0]">
+        <h1 class="text-5xl  font-bold text-transparent animation-h cursor-pointer">
+            Finance Tracker</h1>
+        <div class="flex justify-between items-center gap-4">
+            <a href=""
+                class="font-semibold cursor-pointer text-lg  hover:text-[var(--hover-color)] text-white transition-all">Home</a>
+            <a href="About.html"
+                class="font-semibold cursor-pointer text-lg hover:text-[var(--hover-color)]  text-white transition-all">About</a>
+            <button type="button" id="theme-toggle"
+                class=" w-auto bg-white px-2 py-1 rounded-sm cursor-pointer hover:bg-slate-200 flex justify-evenly items-center md:text-md text-sm">Dark
+            </button>
+        </div>
+    </header>
+    <main class="w-[95%]  m-auto">
+        <!--Displaying Income / expense and balance-->
+        <div class="grid gap-3 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 py-4 ">
+            <div
+                class="bg-[var(--bg-div)] shadow-md flex flex-col justify-center items-start pl-4 py-6 px-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Total Income</span>
+                <span class="text-xl text-green-700" id="total">$</span>
+            </div>
+            <div class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Expenses</span>
+                <span class="text-xl text-red-700" id="expense">$</span>
+            </div>
+            <div class="bg-[var(--bg-div)] flex shadow-md flex-col justify-center items-start pl-4 py-2 rounded-lg ">
+                <span class="text-sm text-slate-500">Balance</span>
+                <span class="text-xl text-blue-500" id="balance">$</span>
+            </div>
+        </div>
+        <!--fORM-->
+        <div class="grid lg:grid-cols-3 grid-cols-1  lg:grid-rows-5 gap-6 ">
+            <div class="row-span-5 bg-[var(--bg-div)] px-4 rounded-lg shadow-md ">
+                <h1 class="text-4xl font-bold pt-4 text-center">Add Transaction</h1>
+                <form class="grid  grid-cols-1 gap-2 py-6 mt-5">
+                    <!--DESCRIPTION-->
+                    <label for="description" class="font-semibold">Description:</label>
+                    <input type="text" placeholder="Description" id="description"
+                        class=" border bg-[var(--bg-input)] py-4 px-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                    <!--AMOUNT-->
+                    <label for="amount" class="font-semibold">Amount:</label>
+                    <input type="number" min="0" placeholder="Amount" id="amount"
+                        class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                    <!--TYPE? INCOME OR EXPENSE-->
+                    <label for="select" class="font-semibold">Choose type of Amount:</label>
+                    <select name="type" id="select" title="choose option"
+                        class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        <option value="Income">Income</option>
+                        <option value="Expense">Expense</option>
+                    </select>
+                    <br>
+                    <button type="button" id="add"
+                        class="flex justify-center items-center gap-2 text-white md:text-lg text-sm px-2 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add
+                        Transaction
+                    </button>
+                </form>
+            </div>
+            <!--CHART-->
+            <div class="col-span-2 row-span-5 rounded-lg bg-[var(--bg-div)] shadow-md p-3">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <!--TABLE-->
+        <div class="h-full  rounded-lg bg-[var(--bg-div)] shadow-lg mt-4 w-full px-3 py-4 mb-8">
+            <h1 class="text-3xl  font-semibold mb-4 p-2">Recent Transactions</h1>
+            <table class="table-auto bg-[var(--bg-table)] w-full rounded-lg p-6 overflow-x-auto">
+                <thead>
+                    <tr class="text-left ">
+                        <th class="text-xl bg-black text-white">Description</th>
+                        <th class="text-xl bg-black text-white">Amount</th>
+                        <th class="text-xl bg-black text-white">Type</th>
+                        <th class="text-xl bg-black text-white">Options</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[var(--text)]" id="tbody">
+                    <!--Table Data from the form-->
+                </tbody>
+            </table>
+    </main>
+
+    <footer
+        class="bg-[var(--header)] text-white text-lg p-4 flex justify-center items-center border-t-2 border-[#E2E8F0]">
+        <p>&copy;All rights reserved</p>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["red", "blue", "green", "yellow", "indigo"],
+            datasets: [{
+                label: '# of actions',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    //Dark Mode
+    const theme = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('data-theme');
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        theme.innerHTML = `Light`;
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        theme.innerHTML = `Dark`;
+    }
+    theme.addEventListener('click', function () {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            theme.innerHTML = `Light`;
+            localStorage.setItem('data-theme', 'light');
+
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            theme.innerHTML = `Dark`;
+            localStorage.setItem('data-theme', 'dark');
+        }
+    });
+</script>
+<script>
+    //Display Ids
+    const TotalIncome = document.getElementById('total');
+    const Expense = document.getElementById('expense');
+    const Balance = document.getElementById('balance');
+    //form ids
+    const description = document.getElementById('description');
+    const amount = document.getElementById('amount');
+    const select = document.getElementById('select');
+    const add = document.getElementById('add');
+    // table ids
+    const tbody = document.getElementById('tbody');
+    let DataArray = [];
+    let currentId = 1;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        //adding transaction button
+        add.addEventListener('click', function () {
+            const desc = description.value.trim();
+            const amt = amount.value.trim();
+            const type = select.value;
+            const Object = {
+                desc: desc,
+                amt: amt,
+                type: type,
+                id: currentId
+            }
+            DataArray.push(Object);
+            CreateNewRow();
+            ValidateFields();
+            console.log(DataArray);
+            //tbody
+            tbody.addEventListener('click', function (event) {
+                DeleteRow(event);
+            })
+        });
+        //function to check if all fields are filled or not 
+        function ValidateFields() {
+            if (description.value === "" || amount.value === "" || select.value === "") {
+                alert("Please Fill out all fields and choose a type!");
+            } else {
+
+                description.value = "";
+                amount.value = "";
+                select.value = "";
+            }
+        }
+        //create new Row
+        function CreateNewRow() {
+            tbody.innerHTML = "";
+            DataArray.forEach((item) => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                <td>${item.desc}</td>
+                <td>${item.amt}</td>
+                <td>${item.type}</td>
+                <td>
+                   <button class="text-blue-600 cursor-pointer font-semibold data-id='${item.id}'">Edit</button>
+                   <button class="text-red-600 cursor-pointer font-semibold data-id='${item.id}'">Delete</button>
+                </td>`
+                if (item.type === "Income") {
+                    newRow.classList.add('bg-green-200')
+                } else {
+                    newRow.classList.add('bg-red-100')
+                }
+
+                tbody.appendChild(newRow);
+            })
+        }
+
+        //delete function
+        function DeleteRow(event) {
+            event.target.classList.contains('text-red-600');
+            const ID = parseInt(event.target.getAttribute('data-id'));
+            const index = DataArray.findIndex(index => index.id === ID);
+            if (index !== -1) {
+                DataArray.splice(index, 1)
+            }
+            event.target.closest('tr').remove();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+
+
+
+</script>
+
+</html>
