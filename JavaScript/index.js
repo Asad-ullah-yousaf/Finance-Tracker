@@ -74,18 +74,18 @@ const open = document.getElementById('open');
     const tbody = document.getElementById('tbody');
     let DataArray = JSON.parse(localStorage.getItem('DataArray')) || [];
     let currentId = DataArray.length > 0 ? Math.max(...DataArray.map((item) => item.id)) + 1 : 1;
-    
-    const MonthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let currentDate = new Date();
-    const RetrieveMonth = (MonthArray) => {
-        const dateMonth = MonthArray[currentDate.getMonth()];
-        const dateDay = currentDate.getDate();
-        const dateYear = currentDate.getFullYear();
+    const date = document.getElementById('date');
+    // const MonthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    // let currentDate = new Date();
+    // const RetrieveMonth = (MonthArray) => {
+    //     const dateMonth = MonthArray[currentDate.getMonth()];
+    //     const dateDay = currentDate.getDate();
+    //     const dateYear = currentDate.getFullYear();
 
-        return dateMonth + "-" + dateDay + "-" + dateYear;
-    }
+    //     return dateMonth + "-" + dateDay + "-" + dateYear;
+    // }
 
-    console.log(RetrieveMonth(MonthArray));
+    // console.log(RetrieveMonth(MonthArray));
 
 
 
@@ -100,7 +100,7 @@ const open = document.getElementById('open');
         const ctx = document.getElementById('myChart');
 
         let myChart = new Chart(ctx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: ['Income','Expense'],
                 datasets: [{
@@ -173,7 +173,7 @@ const open = document.getElementById('open');
         
         /*-----function to check if all fields are filled or not---*/ 
         function ValidateFields() {
-            if (description.value === "" || amount.value === "" || seLect.value === "--choose--") {
+            if (description.value === "" || amount.value === "" || seLect.value === "--choose--" || date.value === "") {
                 alert("Please Fill out all fields and choose a type!");
                 tbody.innerHTML = "";
             } else {
@@ -190,6 +190,7 @@ const open = document.getElementById('open');
                 <td>${item.desc}</td>
                 <td>$${item.amt}</td>
                 <td>${item.type}</td>
+                <td>${item.category}</td>
                 <td class="flex gap-2">
                    <button class="text-white bg-blue-600 rounded-md px-2 py-1 cursor-pointer text-sm hover:scale-115 transition-all font-semibold" data-id="${item.id}">Edit</button>
                    <button class="text-white bg-red-600 rounded-md px-2 py-1 cursor-pointer text-sm hover:scale-115 transition-all font-semibold " data-id="${item.id}">Delete</button>
@@ -262,6 +263,30 @@ const open = document.getElementById('open');
             const descriptionInput = document.getElementById('descriptionInput');
             const amountInput = document.getElementById('amountInput');
             const selectInput = document.getElementById('selectInput');
+            const modalexpCat = document.getElementById('modal-expenseCat');
+            const modalincomeCat = document.getElementById('modal-incomeCat');
+            const modalDate = document.getElementById('modal-date');
+           //const select = document.getElementById('select-modal');
+
+            
+    selectInput.addEventListener('change',function(){
+        //const SelectIncome = filterSelect.value;
+             if(selectInput.value === 'Income'){
+                modalincomeCat.classList.remove('hidden');
+                modalexpCat.classList.add('hidden');
+                console.log(selectInput.value);
+                
+             }else if(selectInput.value === 'Expense'){
+                modalexpCat.classList.remove('hidden');
+                modalincomeCat.classList.add('hidden');
+                console.log(selectInput.value);
+             }else{
+                modalexpCat.classList.add('hidden');
+                modalincomeCat.classList.add('hidden');
+             }
+             //saveStorage();
+             //console.log(SelectIncome);
+       })
 
             if (event.target.classList.contains('bg-blue-600')) {
                 const ID = parseInt(event.target.getAttribute('data-id'));
@@ -271,6 +296,8 @@ const open = document.getElementById('open');
                     descriptionInput.value = item.desc;
                     amountInput.value = item.amt;
                     selectInput.value = item.type;
+
+
 
                     OpenIt();
 
@@ -325,31 +352,45 @@ const open = document.getElementById('open');
             const desc = description.value.trim();
             const amt = amount.value.trim();
             const type = select.value;
-            const date = RetrieveMonth(MonthArray);
-            if (description.value !== "" && amount.value !== "") {
+            let category = "";
+
+            if (type === "Income") {
+                category = incomeCat.value;
+            } else if (type === "Expense") {
+                category = expCat.value;
+            }
+
+            const selectDate = date.value;
+
+            // Call ValidateFields before creating the new row
+            ValidateFields();
+
+            if (description.value !== "" && amount.value !== "" && date.value !=="") {
                 const Object = {
-                    date: date,
+                    date: selectDate,
                     desc: desc,
                     amt: amt,
                     type: type,
+                    category: category, // Set the category value correctly
                     id: currentId++
                 }
 
                 DataArray.push(Object);
                 CreateNewRow();
-                ValidateFields();
                 CheckBalance(DataArray);
                 updateChart();
                 saveStorage();
                 console.log(DataArray);
-                //tbody
+
+                // Clear input fields
                 description.value = "";
                 amount.value = "";
+                date.value = "";
             } else {
                 return alert("Please fill out all fields!")
             }
-
         });
+
         tbody.addEventListener('click', function (event) {
             DeleteRow(event);
             console.log(DataArray)
@@ -374,7 +415,7 @@ const open = document.getElementById('open');
     function separateExp(expenseCategory){
         const sep = DataArray.filter((item)=>item.name===expenseCategory.value);
         if(sep.length == 0 ){
-            return alert("No data was found")
+            return ;
         }
         else{
         return sep;
@@ -385,7 +426,7 @@ const open = document.getElementById('open');
     
         const sepInc = DataArray.filter((item)=>item.name===incomeCategory.value);
         if(sepInc.length == 0){
-        return alert('No Data Found')
+        return ;
         }
         else{
         return sepInc;
@@ -399,37 +440,85 @@ const open = document.getElementById('open');
     }else if(filterSelect.value === "Expense"){
        console.log( separateExp(expenseCategory))
     }else{
-        return console.log(arr);
+        return console.log(DataArray);
     }
-    saveStorage();
+    //saveStorage();
     });
 
 
-    filterSelect.addEventListener('change',function(){
-        //const SelectIncome = filterSelect.value;
-             if(filterSelect.value === 'Income'){
-                incomeCategory.classList.remove('hidden');
-                expenseCategory.classList.add('hidden');
-                console.log(filterSelect.value);
+    // filterSelect.addEventListener('change',function(){
+    //     //const SelectIncome = filterSelect.value;
+    //          if(filterSelect.value === 'Income'){
+    //             incomeCategory.classList.remove('hidden');
+    //             expenseCategory.classList.add('hidden');
+    //             console.log(filterSelect.value);
                 
-             }else if(filterSelect.value === 'Expense'){
-                expenseCategory.classList.remove('hidden');
-                incomeCategory.classList.add('hidden');
-                console.log(filterSelect.value);
-             }else{
-                expenseCategory.classList.add('hidden');
-                incomeCategory.classList.add('hidden');
-             }
-             saveStorage();
-             //console.log(SelectIncome);
-       })
+    //          }else if(filterSelect.value === 'Expense'){
+    //             expenseCategory.classList.remove('hidden');
+    //             incomeCategory.classList.add('hidden');
+    //             console.log(filterSelect.value);
+    //          }else{
+    //             expenseCategory.classList.add('hidden');
+    //             incomeCategory.classList.add('hidden');
+    //          }
+    //          //saveStorage();
+    //          //console.log(SelectIncome);
+    //    })
 
+const filterButton = document.getElementById('Filter') // Select the filter button
 
-    // function updateChart(amount,type){
-        // if(DataArray.filter((item)=>item.type==="Expense")){
-        //     myChart.datasets[0].data += amount
-        // }else if(DataArray.filter((item)=>item.type==="Income")){
-        //     myChart.datasets[0].data += amount
-        // }
-        // myChart.update();
-        // }
+filterSelect.addEventListener('change', function() {
+    if (filterSelect.value === "Income") {
+        incomeCategory.classList.remove('hidden');
+        expenseCategory.classList.add('hidden');
+    } else if (filterSelect.value === "Expense") {
+        expenseCategory.classList.remove('hidden');
+        incomeCategory.classList.add('hidden');
+    } else {
+        expenseCategory.classList.add('hidden');
+        incomeCategory.classList.add('hidden');
+    }
+});
+
+filterButton.addEventListener('click', function() {
+    const type = filterSelect.value;
+    let category = "";
+
+    if (type === "Income") {
+        category = incomeCategory.value;
+    } else if (type === "Expense") {
+        category = expenseCategory.value;
+    }
+
+    let filteredData;
+    if (type === "All") {
+        filteredData = DataArray; // Show all data
+    } else {
+        filteredData = DataArray.filter(item => item.type === type && item.category === category);
+    }
+    updateTable(filteredData);
+});
+
+function updateTable(data) {
+    tbody.innerHTML = "";
+    data.forEach(item => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${item.date}</td>
+            <td>${item.desc}</td>
+            <td>$${item.amt}</td>
+            <td>${item.type}</td>
+            <td>${item.category}</td>
+            <td class="flex gap-2">
+                <button class="text-white bg-blue-600 rounded-md px-2 py-1 cursor-pointer text-sm hover:scale-115 transition-all font-semibold" data-id="${item.id}">Edit</button>
+                <button class="text-white bg-red-600 rounded-md px-2 py-1 cursor-pointer text-sm hover:scale-115 transition-all font-semibold" data-id="${item.id}">Delete</button>
+            </td>`;
+        if (item.type === "Income") {
+            newRow.classList.add('bg-green-200');
+        } else if(item.type === "Expense") {
+            newRow.classList.add('bg-red-100');
+        }
+        newRow.classList.add('Hover');
+        tbody.appendChild(newRow);
+    });
+}

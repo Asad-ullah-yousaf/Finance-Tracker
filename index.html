@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!--Tostify.js-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!---->
@@ -151,48 +152,53 @@
                     <!--DESCRIPTION-->
                     <label for="description" class="font-semibold">Description:</label>
                     <input type="text" placeholder="Description" id="description"
-                        class=" border bg-[var(--bg-input)] py-4 px-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        class=" border bg-[var(--bg-input)] py-4 px-2 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
                     <!--AMOUNT-->
                     <label for="amount" class="font-semibold">Amount:</label>
                     <input type="number" min="0" placeholder="Amount" id="amount"
-                        class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                        class="border bg-[var(--bg-input)]  p-2 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
 
 
 
                     <!-------------------------TYPE? INCOME OR EXPENSE---------------------->
                     <label for="select" class="font-semibold">Choose type of Amount:</label>
-                   
+
 
                     <div class="flex justify-start  items-center mb-5 gap-3">
 
                         <select name="type" id="select" title="choose option"
-                        class="justify-self-start border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
-                        <option value="Choose">--choose--</option>
-                        <option value="Income">Income</option>
-                        <option value="Expense">Expense</option>
-                    </select>
-        
-                        <select  id="expenseCat" title="choose option"
-                        class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                            class="justify-self-start border bg-[var(--bg-input)]  p-2 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                            <option value="Choose">--choose--</option>
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                        </select>
+
+                        <select id="expenseCat" title="choose option"
+                            class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
                             <option value="Food">Food</option>
                             <option value="Sports">Sports</option>
                             <option value="Travelling">Travelling</option>
                             <option value="Shopping">Shopping</option>
                             <option value="Groceries">Groceries</option>
                             <option value="Outing">Outing</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Bills">Bills</option>
                             <option value="Other">Other</option>
                         </select>
-        
-        
-                        <select  id="incomeCat" title="choose option"
-                        class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+
+
+                        <select id="incomeCat" title="choose option"
+                            class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
                             <option value="Business">business</option>
                             <option value="Salary">Salary</option>
                             <option value="Bonus">Bonus</option>
                             <option value="Gift">Gift</option>
+                            <option value="Freelance">Freelance</option>
                             <option value="Other">Other</option>
-        
+
                         </select>
+
+                        <input type="date" id="date" class="bg-[var(--bg-input)] py-2 px-4 rounded-md shadow-md">
                     </div>
                     <!--Category
                     <select id="select-category"
@@ -220,38 +226,54 @@
 
 
             <!--------------------- FILTER ------------------------------->
+            
+
             <div class="flex justify-end px-5 items-center mb-5 gap-3">
-                <select  id="filter-select" title="choose option"
-                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                <select id="filter-select" title="choose option"
+                    class="border bg-[var(--bg-input)]  p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                    <option value="All">All</option>
                     <option value="Income">Income</option>
                     <option value="Expense">Expense</option>
                 </select>
 
-                <select  id="expense-category" title="choose option"
-                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                <select id="expense-category" title="choose option"
+                    class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
                     <option value="Food">Food</option>
                     <option value="Sports">Sports</option>
                     <option value="Travelling">Travelling</option>
                     <option value="Shopping">Shopping</option>
                     <option value="Groceries">Groceries</option>
                     <option value="Outing">Outing</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Other">Other</option>
                 </select>
 
 
-                <select  id="income-category" title="choose option"
-                class="border bg-[var(--bg-input)]  p-2 px-3 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                <select id="income-category" title="choose option"
+                    class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
                     <option value="Business">business</option>
                     <option value="Salary">Salary</option>
                     <option value="Bonus">Bonus</option>
+                    <option value="Freelance">Freelance</option>
                     <option value="Gift">Gift</option>
+                    <option value="Other">Other</option>
 
                 </select>
 
-                <Button type="button" class="px-5 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md cursor-pointer">Filter</Button>
+                <div class="flex gap-2 justify-start  items items-center">
+                    <input type="date"  id="startDate" class="bg-[var(--bg-input)] py-2 px-4 rounded-md shadow-md">
+                    <label for="endDate" class="font-bold text-xl">to</label>
+                    <input type="date" id="endDate" class="bg-[var(--bg-input)] py-2 px-4 rounded-md shadow-md">
+    
+                </div>
+
+                <Button type="button" id="Filter"
+                    class="px-5 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md cursor-pointer">Filter</Button>
             </div>
 
 
-<!----------------------------Table--------------------------------------->
+            <!----------------------------Table--------------------------------------->
             <table class="table-auto bg-[var(--bg-table)] w-[97%] m-auto rounded-lg p-6 overflow-x-auto">
                 <thead>
                     <tr class="text-left ">
@@ -259,6 +281,7 @@
                         <th class="text-xl bg-black text-white">Description</th>
                         <th class="text-xl bg-black text-white">Amount</th>
                         <th class="text-xl bg-black text-white">Type</th>
+                        <th class="text-xl bg-black text-white">Category</th>
                         <th class="text-xl bg-black text-white">Options</th>
                     </tr>
                 </thead>
@@ -289,11 +312,48 @@
                         <label for="select" class="font-semibold">Choose type of Amount:</label>
                         <select name="type" id="selectInput" title="choose option"
                             class="border bg-[var(--bg-input)]  p-2 rounded-sm overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
-
+                            <option value="Choose">--choose--</option>
                             <option value="Income">Income</option>
                             <option value="Expense">Expense</option>
                         </select>
-                        <br>
+
+                        <div class="flex justify-start  items-center mb-5 gap-3">
+
+                            <!-- <select name="type" id="select-modal" title="choose option"
+                                class="justify-self-start border bg-[var(--bg-input)]  p-2 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md ">
+                                <option value="Choose">--choose--</option>
+                                <option value="Income">Income</option>
+                                <option value="Expense">Expense</option>
+                            </select> -->
+
+                            <select id="modal-expenseCat" title="choose option"
+                                class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                                <option value="Food">Food</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Travelling">Travelling</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Outing">Outing</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Utilities">Utilities</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Other">Other</option>
+                            </select>
+
+
+                            <select id="modal-incomeCat" title="choose option"
+                                class="border bg-[var(--bg-input)] hidden p-2 px-3 rounded-md overflow-hidden focus:outline-blue-400 focus:outline-3 shadow-md">
+                                <option value="Business">business</option>
+                                <option value="Salary">Salary</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Bonus">Bonus</option>
+                                <option value="Gift">Gift</option>
+                                <option value="Other">Other</option>
+
+                            </select>
+
+                            <input type="date" id="modal-date"
+                                class="bg-[var(--bg-input)] py-2 px-4 rounded-md shadow-md">
+                        </div>
                         <button type="button" id="addBtn"
                             class="flex justify-center items-center gap-2 text-white md:text-lg text-sm px-2 py-2 bg-blue-500  cursor-pointer hover:bg-blue-700 rounded-sm transition-all">Add
                             Transaction
@@ -316,22 +376,23 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const seLect = document.getElementById('select');
-    const expCat = document.getElementById('expenseCat');
-    const incomeCat = document.getElementById('incomeCat');
+    // const seLect = document.getElementById('select');
+    // const expCat = document.getElementById('expenseCat');
+    // const incomeCat = document.getElementById('incomeCat');
 
-    seLect.addEventListener('change', function(){
-        if(seLect.value === "Income"){
-            incomeCat.classList.remove('hidden');
-            expCat.classList.add('hidden');
-        }else if(seLect.value === "Expense"){
-            expCat.classList.remove('hidden');
-            incomeCat.classList.add('hidden');
-        }else{
-            expCat.classList.add('hidden');
-            incomeCat.classList.add('hidden');
-        }
-    })
+    // seLect.addEventListener('change', function(){
+    //     if(seLect.value === "Income"){
+    //         incomeCat.classList.remove('hidden');
+    //         expCat.classList.add('hidden');
+    //     }else if(seLect.value === "Expense"){
+    //         expCat.classList.remove('hidden');
+    //         incomeCat.classList.add('hidden');
+    //     }else{
+    //         expCat.classList.add('hidden');
+    //         incomeCat.classList.add('hidden');
+    //     }
+    // })
 </script>
 <script src="JavaScript/index.js"></script>
+
 </html>
